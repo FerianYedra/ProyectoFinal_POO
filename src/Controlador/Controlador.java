@@ -24,6 +24,7 @@ public class Controlador implements ActionListener{
 		vista.panelPrueba.bBuscar.addActionListener(this);
 		vista.panelPrueba.bArchivo.addActionListener(this);
 		vista.panelPrueba.bClasif.addActionListener(this);
+		vista.panelPrueba.bFrases.addActionListener(this);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -106,16 +107,29 @@ public class Controlador implements ActionListener{
 			//Accion tras apretar botón de clasificar
 			try {
 				String frase = vista.panelPrueba.textfFrase.getText();
+				String category = ""; 
+				System.out.println("---------------------Frase recuperada---------------------");
 				if(frase.isEmpty() || frase == null) {
 					JOptionPane.showMessageDialog(null, "Error: campo vacío","Error", JOptionPane.ERROR_MESSAGE);
 				}else {
-					mod.tokenizer(frase);
-					JOptionPane.showMessageDialog(null, "Frase tokenizada","Clasificar", JOptionPane.INFORMATION_MESSAGE);
+					System.out.println("---------------------Categorizando frase--------------------");
+					category = mod.categorizar(frase);
+					System.out.println("---------------------Frase categorizada---------------------");
+					vista.graf.graf.setText("Categoria: " + category);
 				}
 			}catch(Exception ex) {
 				JOptionPane.showMessageDialog(null, "Error al clasificar","Error", JOptionPane.ERROR_MESSAGE);
 			}
+		}else if (e.getSource() == vista.panelPrueba.bFrases) {
+			//Accion tras apretar un botón de clasificar
+			try {
+				System.out.println("---------------------Preparando OpenNLP...---------------------");
+				mod.openNLP();
+				System.out.println("---------------------OpenNLP Listo---------------------");
+				JOptionPane.showMessageDialog(null, "Listo para claseificar la frase","Clasificar", JOptionPane.INFORMATION_MESSAGE);
+			}catch(Exception ex) {
+				JOptionPane.showMessageDialog(null, "Error al leer el archivo para clasificar", "Error", JOptionPane.ERROR_MESSAGE);
+			}	
 		}
 	}
-
 }

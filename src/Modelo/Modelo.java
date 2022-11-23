@@ -27,6 +27,14 @@ import opennlp.tools.util.TrainingParameters;
 import opennlp.tools.util.model.ModelUtil;
 
 public class Modelo {
+	/*InputStreamFactory inputStreamFactory;
+	ObjectStream<String> lineStream;
+	ObjectStream<DocumentSample> sampleStream;
+	TrainingParameters params;
+	DoccatFactory factory;
+	DoccatModel model;
+	String category = "";*/
+	public static DocumentCategorizerME myCategorizer;
 	
 	private String ruta;
 	
@@ -173,7 +181,59 @@ public class Modelo {
 		return tLimpio;
 	}
 	
-	public void openNLP(String frase) throws Exception{
+	/*public void openNLP() throws Exception{
+		 
+		// Calsifica texto en categorías predefinidas. Basado en la máxima entropía. 
+		 
+		// Archivo con los ejemplos de clasificación. Este es el modelo
+		inputStreamFactory = new MarkableFileInputStreamFactory(new File("/home/im20fyl/Documents/TokenizerFiles/documentcategorizer.txt"));
+		lineStream = new PlainTextByLineStream(inputStreamFactory, StandardCharsets.UTF_8);
+		sampleStream = new DocumentSampleStream(lineStream);
+ 
+		// CUT_OFF, como 0, se utilizan pocas muestras. 
+		// BagOfWordsFeatureGenerator Utiliza las palabras del model
+
+		params = ModelUtil.createDefaultTrainingParameters();
+		params.put(TrainingParameters.CUTOFF_PARAM, 0);
+		factory = new DoccatFactory(new FeatureGenerator[] { new BagOfWordsFeatureGenerator() });
+ 
+		// Aquí comienza el entrenamiento del modelo. 
+		model = DocumentCategorizerME.train("en", sampleStream, params, factory);
+ 
+		
+		// Archivo que se carga directamente al modelo, se reutiliza. 
+		model.serialize(new File("/home/im20fyl/Documents/TokenizerFiles/documentcategorizer.bin"));
+		
+	}
+		
+		
+	public String categorizar(String frase) throws Exception{
+		// Se carga el modelo entrenado
+		try (InputStream modelIn = new FileInputStream("/home/im20fyl/Documents/TokenizerFiles/documentcategorizer.bin");
+				Scanner scanner = new Scanner(System.in);) {
+			System.out.println("---------------------Entro al categorizador---------------------");
+			//Aqui habia un while-----------------------------
+ 
+				// categorización
+				DocumentCategorizerME myCategorizer = new DocumentCategorizerME(model);
+ 
+				// Frase a categorizar.
+				double[] probabilitiesOfOutcomes = myCategorizer.categorize(getTokens(frase));
+ 
+				// Se obtiene la categoría de la frase ingresada.
+				category = myCategorizer.getBestCategory(probabilitiesOfOutcomes);
+				System.out.println("Category: " + category);
+
+			//----------------------------------------------------------------------------------------------------------
+ 
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("---------------------Categorización fallida---------------------");
+		}
+		return category;
+	}*/
+	
+	public void openNLP() throws Exception {
 		 
 		// Calsifica texto en categorías predefinidas. Basado en la máxima entropía. 
 		 
@@ -201,32 +261,33 @@ public class Modelo {
 		try (InputStream modelIn = new FileInputStream("/home/im20fyl/Documents/TokenizerFiles/documentcategorizer.bin");
 				Scanner scanner = new Scanner(System.in);) {
  
-			while (true) {
-				
-				System.out.println("Enter a sentence:");
- 
 				// categorización
-				DocumentCategorizerME myCategorizer = new DocumentCategorizerME(model);
+				myCategorizer = new DocumentCategorizerME(model);
  
 				// Frase a categorizar.
-				double[] probabilitiesOfOutcomes = myCategorizer.categorize(getTokens(scanner.nextLine()));
+				
  
-				// Se obtiene la categoría de la frase ingresada.
-				String category = myCategorizer.getBestCategory(probabilitiesOfOutcomes);
-				System.out.println("Category: " + category);
- 
-			}
- 
-		} catch (Exception e) {
+			} catch (Exception e) {
 			e.printStackTrace();
 		}
- 
+	}
+	
+	public String categorizar(String frase) {
+		System.out.println("Entro a categorizar\n" + frase);
+		double[] probabilitiesOfOutcomes = myCategorizer.categorize(getTokens(frase));
+		 
+		System.out.println("obtener probabilidades");
+		// Se obtiene la categoría de la frase ingresada.
+		String category = myCategorizer.getBestCategory(probabilitiesOfOutcomes);
+		System.out.println("Category: " + category);
+		
+		return category;
 	}
 	
 	public String[] getTokens (String frase) {
 		// Use model that was created in earlier tokenizer tutorial
 				try (InputStream modelIn = new FileInputStream("/home/im20fyl/Documents/TokenizerFiles/tokenizermodel.bin")) {
-		 
+					
 					TokenizerME myCategorizer = new TokenizerME(new TokenizerModel(modelIn));
 		 
 					String[] tokens = myCategorizer.tokenize(frase);
@@ -234,6 +295,7 @@ public class Modelo {
 					for (String t : tokens) {
 						System.out.println("Tokens: " + t);
 					}
+					System.out.println("Regresar tokens");
 					return tokens;
 		 
 				} catch (Exception e) {

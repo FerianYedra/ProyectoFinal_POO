@@ -60,9 +60,15 @@ public class Controlador implements ActionListener{
 				//Actualizar interfaz gráfica (gráfica
 					palabras = mod.leerArch("/home/im20fyl/Documents/palabras.csv");
 					System.out.println(palabras);
+					for(int i = 0; i < palabras.size(); i++) {
+						if(palabras.get(i) == "" || palabras.get(i).isEmpty()) {
+							palabras.remove(i);
+						}
+					}
 					
 					ArrayList<String> palabrasTexto = new ArrayList<String>();
 					palabrasTexto = mod.separarTexto(texto);
+					System.out.println(palabras);
 					
 					ArrayList<Integer> contar = new ArrayList<Integer>();
 					contar = mod.contarPalabras(palabras, palabrasTexto);
@@ -83,22 +89,22 @@ public class Controlador implements ActionListener{
 				System.out.println("Bucsar");
 				if(buscar.isEmpty() || buscar == null) {
 					JOptionPane.showMessageDialog(null, "Error: campo vacío","Error", JOptionPane.ERROR_MESSAGE);
+				}else {
+					ArrayList<String> palabras = new ArrayList<String>();
+					palabras.add(buscar);
+					
+					ArrayList<String> palabrasTexto = new ArrayList<String>();
+					palabrasTexto = mod.separarTexto(texto);
+					
+					ArrayList<Integer> contar = new ArrayList<Integer>();
+					contar = mod.contarPalabras(palabras, palabrasTexto);
+					//System.out.println(contar);
+					
+					BarChart_AWT graficador = new BarChart_AWT("Título", palabras, contar);
+					vista.graf.grafica.removeAll();
+					vista.graf.grafica.add(graficador.createDemoPanel());
+					vista.graf.grafica.updateUI();
 				}
-				ArrayList<String> palabras = new ArrayList<String>();
-				palabras.add(buscar);
-				
-				ArrayList<String> palabrasTexto = new ArrayList<String>();
-				palabrasTexto = mod.separarTexto(texto);
-				
-				ArrayList<Integer> contar = new ArrayList<Integer>();
-				contar = mod.contarPalabras(palabras, palabrasTexto);
-				//System.out.println(contar);
-				
-				BarChart_AWT graficador = new BarChart_AWT("Título", palabras, contar);
-				vista.graf.grafica.removeAll();
-				vista.graf.grafica.add(graficador.createDemoPanel());
-				vista.graf.grafica.updateUI();
-				
 				
 			}catch(Exception ex) {
 				JOptionPane.showMessageDialog(null, "Error cargando gráfica","Error", JOptionPane.ERROR_MESSAGE);
@@ -115,7 +121,9 @@ public class Controlador implements ActionListener{
 					System.out.println("---------------------Categorizando frase--------------------");
 					category = mod.categorizar(frase);
 					System.out.println("---------------------Frase categorizada---------------------");
+					vista.graf.grafica.removeAll();
 					vista.graf.graf.setText("Categoria: " + category);
+					vista.graf.grafica.updateUI();
 				}
 			}catch(Exception ex) {
 				JOptionPane.showMessageDialog(null, "Error al clasificar","Error", JOptionPane.ERROR_MESSAGE);

@@ -162,6 +162,7 @@ public class Modelo {
 	
 	public ArrayList<String> limpiarTexto(ArrayList<String> texto){
 		ArrayList<String> tLimpio = new ArrayList<String>();
+		
 		String linea;
 		
 		for(int i = 0; i < texto.size(); i++) {
@@ -180,58 +181,6 @@ public class Modelo {
 		
 		return tLimpio;
 	}
-	
-	/*public void openNLP() throws Exception{
-		 
-		// Calsifica texto en categorías predefinidas. Basado en la máxima entropía. 
-		 
-		// Archivo con los ejemplos de clasificación. Este es el modelo
-		inputStreamFactory = new MarkableFileInputStreamFactory(new File("/home/im20fyl/Documents/TokenizerFiles/documentcategorizer.txt"));
-		lineStream = new PlainTextByLineStream(inputStreamFactory, StandardCharsets.UTF_8);
-		sampleStream = new DocumentSampleStream(lineStream);
- 
-		// CUT_OFF, como 0, se utilizan pocas muestras. 
-		// BagOfWordsFeatureGenerator Utiliza las palabras del model
-
-		params = ModelUtil.createDefaultTrainingParameters();
-		params.put(TrainingParameters.CUTOFF_PARAM, 0);
-		factory = new DoccatFactory(new FeatureGenerator[] { new BagOfWordsFeatureGenerator() });
- 
-		// Aquí comienza el entrenamiento del modelo. 
-		model = DocumentCategorizerME.train("en", sampleStream, params, factory);
- 
-		
-		// Archivo que se carga directamente al modelo, se reutiliza. 
-		model.serialize(new File("/home/im20fyl/Documents/TokenizerFiles/documentcategorizer.bin"));
-		
-	}
-		
-		
-	public String categorizar(String frase) throws Exception{
-		// Se carga el modelo entrenado
-		try (InputStream modelIn = new FileInputStream("/home/im20fyl/Documents/TokenizerFiles/documentcategorizer.bin");
-				Scanner scanner = new Scanner(System.in);) {
-			System.out.println("---------------------Entro al categorizador---------------------");
-			//Aqui habia un while-----------------------------
- 
-				// categorización
-				DocumentCategorizerME myCategorizer = new DocumentCategorizerME(model);
- 
-				// Frase a categorizar.
-				double[] probabilitiesOfOutcomes = myCategorizer.categorize(getTokens(frase));
- 
-				// Se obtiene la categoría de la frase ingresada.
-				category = myCategorizer.getBestCategory(probabilitiesOfOutcomes);
-				System.out.println("Category: " + category);
-
-			//----------------------------------------------------------------------------------------------------------
- 
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("---------------------Categorización fallida---------------------");
-		}
-		return category;
-	}*/
 	
 	public void openNLP() throws Exception {
 		 

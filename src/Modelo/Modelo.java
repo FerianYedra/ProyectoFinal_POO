@@ -26,30 +26,46 @@ import opennlp.tools.util.PlainTextByLineStream;
 import opennlp.tools.util.TrainingParameters;
 import opennlp.tools.util.model.ModelUtil;
 
+
+/**
+ * Clase del modelo del proyecto final, en esta clase se encuentran todos métodos que tuiliza el controlador, puede guardar la ruta de un archivo.
+ * @author Fernando Yedra
+ * @author Karla Obermeier
+ * @date 26 de noviembre del 2022
+ * @version 1.0
+ */
 public class Modelo {
-	/*InputStreamFactory inputStreamFactory;
-	ObjectStream<String> lineStream;
-	ObjectStream<DocumentSample> sampleStream;
-	TrainingParameters params;
-	DoccatFactory factory;
-	DoccatModel model;
-	String category = "";*/
 	public static DocumentCategorizerME myCategorizer;
 	
 	private String ruta;
 	
+	/**
+	 * Constructor del modelo que no recibe nada. 
+	 */
 	public Modelo() {
 		
 	}
-	
+
+	/**
+	 * Constructor del modelo el cual recibe la ruta y la guarda.
+	 */	
 	public Modelo(String ruta) {
 		this.ruta = ruta;
 	}
 
+	/**
+	 * Método que regresa la ruta del modelo
+	 * @return ruta Contiene la ruta guardada.
+	 */
 	public String getRuta () {
 		return ruta;
 	}
 	
+	/**
+	 * Método que lee las lineas de un archivo csv y las guarda en un Array List.
+	 * @param ruta Contiene la ruta donde se encuentra el archivo a leer.
+	 * @return list Array List con las lineas leaidas del archivo.
+	 */
 	public ArrayList<String> leerArch(String ruta){
 		ArrayList<String> list = new ArrayList<String>();
 		try {
@@ -64,6 +80,11 @@ public class Modelo {
 		return list;
 	}
 	
+	/**
+	 * Método que separa un String en palabras (Separadas por espacios) y las regresa como un Array List.
+	 * @param palabrasBusc String a separar en palabras.
+	 * @return palabras Palabras del string separadas.
+	 */
 	public ArrayList<String> obtenerPalabras(String palabrasBusc){
 		ArrayList<String> palabras = new ArrayList<String>();
 		
@@ -75,6 +96,12 @@ public class Modelo {
 		return palabras;
 	}
 	
+	/**
+	 * Método que cuenta la cantidad de veces que encuentra las palabras de un Array List de palabras en un Array List de frases.
+	 * @param palabras ArrayList de palabras a buscar.
+	 * @param texto ArrayList con las frases en las que se van a buscar las palabras.
+	 * @return coincidencias ArrayList de enteros que contiene las veces que se encontrarón las palabras en el mismo orden que las palabras que se le mandan.
+	 */
 	public ArrayList<Integer> contarPalabras(ArrayList<String> palabras, ArrayList<String> texto){
 		ArrayList<Integer> coincidencias = new ArrayList<Integer>();
 		int contador = 0;
@@ -93,7 +120,11 @@ public class Modelo {
 		return coincidencias;
 	}
 	
-	// Separa las lineas de texto en palabras individuales
+	/**
+	 * Método que separa en palabras el texto de un Array List.
+	 * @param texto ArraList con las frases que se van a separar.
+	 * @return partes ArrayList con las palabras separadas.
+	 */
 	public ArrayList<String> separarTexto (ArrayList<String> texto){
 		ArrayList<String> partes = new ArrayList<String>();
 		
@@ -109,9 +140,9 @@ public class Modelo {
 	}
 	
 	/**
-	 * Tokenizador
-	 * @param frase
-	 * @throws Exception
+	 * Método que tokeniza una frase.
+	 * @param frase Frase a ser tokenizada.
+	 * @throws Exception Error al tokenizar.
 	 */
 	public void tokenizer(String frase) throws Exception{
 		/**-----------------------------------------------------------------------------------------------------_**/
@@ -160,6 +191,11 @@ public class Modelo {
 		 
 	}
 	
+	/**
+	 * Método que limpia un texto.
+	 * @param texto ArrayList con las frases a limpiar.
+	 * @return tLimpio ArrayList con el texto limpio.
+	 */
 	public ArrayList<String> limpiarTexto(ArrayList<String> texto){
 		ArrayList<String> tLimpio = new ArrayList<String>();
 		
@@ -182,6 +218,9 @@ public class Modelo {
 		return tLimpio;
 	}
 	
+	/**
+	 * Método que se encarga de haccer la categorización de la frase.
+	 */
 	public void openNLP() throws Exception {
 		 
 		// Calsifica texto en categorías predefinidas. Basado en la máxima entropía. 
@@ -221,6 +260,11 @@ public class Modelo {
 		}
 	}
 	
+	/**
+	 * Método que termina la categorización de la frase.
+	 * @param frase Frase que se va a categorizar.
+	 * @return category La categoría determinada de la frase.
+	 */
 	public String categorizar(String frase) {
 		System.out.println("Entro a categorizar\n" + frase);
 		double[] probabilitiesOfOutcomes = myCategorizer.categorize(getTokens(frase));
@@ -233,6 +277,11 @@ public class Modelo {
 		return category;
 	}
 	
+	/**
+	 * Método que tokeniza la frase para el categorizador.
+	 * @param frase Es la frase que se va a tokenizar.
+	 * @return tokens Son los tokens generados.
+	 */
 	public String[] getTokens (String frase) {
 		// Use model that was created in earlier tokenizer tutorial
 				try (InputStream modelIn = new FileInputStream("/home/im20fyl/Documents/TokenizerFiles/tokenizermodel.bin")) {

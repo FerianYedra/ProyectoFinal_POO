@@ -13,6 +13,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame; 
 import org.jfree.ui.RefineryUtilities; 
 
+/**
+ * Clase que contiene los métodos que generan la gráfica, este código no fue elaborado por los miebros del proyecto
+ */
 public class BarChart_AWT extends ApplicationFrame {
    static ArrayList<String> datosLoc;
    static ArrayList<Integer> contadorLoc;

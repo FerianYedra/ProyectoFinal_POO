@@ -2,6 +2,13 @@ package Vista;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * Clase donde se coloca el título del programa, asi como el panel que contiene la imagen de la institución.
+ * @author Fernando Yedra
+ * @author Karla Obermeier
+ * @date 26 de noviembre de 2022
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public class PanelTitulo extends JPanel{
 	public PanelTitulo() {

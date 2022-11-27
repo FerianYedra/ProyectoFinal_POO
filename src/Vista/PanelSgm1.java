@@ -1,6 +1,13 @@
 package Vista;
 import javax.swing.*;
 
+/**
+ * Clase donde se crea el panel que contiene los botones y cuadros de texto que usa el programa.
+ * @author Fernando Yedra
+ * @author Karla Obermeier
+ * @date 26 de noviembre de 2022
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public class PanelSgm1 extends JPanel{
 	

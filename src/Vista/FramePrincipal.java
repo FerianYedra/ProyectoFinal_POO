@@ -1,6 +1,13 @@
 package Vista;
 import javax.swing.*;
 
+/**
+ * Clase que contiene el frame principal donde se colocan todos los demás paneles.
+ * @author Fernando Yedra
+ * @author Karla Obermeier
+ * @date 26 de noviembre de 2022
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public class FramePrincipal extends JFrame {
 	
